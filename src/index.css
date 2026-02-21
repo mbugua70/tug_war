@@ -1,0 +1,31 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+:root {
+  font-family: 'Inter', system-ui, -apple-system, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color-scheme: dark;
+  color: rgba(255, 255, 255, 0.92);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html, body, #root {
+  margin:     0;
+  padding:    0;
+  min-height: 100vh;
+  background: #0d0b1e;
+}
+
+button {
+  font-family: inherit;
+}
+
+/* Custom scrollbar for round history */
+.round-history::-webkit-scrollbar        { width: 4px; }
+.round-history::-webkit-scrollbar-track  { background: transparent; }
+.round-history::-webkit-scrollbar-thumb  { background: rgba(255,255,255,0.2); border-radius: 2px; }
