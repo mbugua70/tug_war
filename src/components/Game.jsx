@@ -1,6 +1,7 @@
-import { useGameLogic } from '../hooks/useGameLogic';
-import { TugArena }     from './TugArena';
-import { PlayerPanel }  from './PlayerPanel';
+import { useGameLogic }  from '../hooks/useGameLogic';
+import { TugArena }      from './TugArena';
+import { PlayerPanel }   from './PlayerPanel';
+import { WinConfetti }   from './WinConfetti';
 import '../styles/game.css';
 
 export function Game() {
@@ -77,6 +78,7 @@ export function Game() {
       {/* ── Full-screen win card ── */}
       {isOver && (
         <div className="win-overlay">
+          <WinConfetti />
           <div className={`win-card ${gameStatus === 'leftWin' ? 'win-card-left' : 'win-card-right'}`}>
             <div className="win-trophy">🏆</div>
             <h2 className={gameStatus === 'leftWin' ? 'win-hl-left' : 'win-hl-right'}>
