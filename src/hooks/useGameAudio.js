@@ -38,5 +38,15 @@ export function useGameAudio() {
     if (victory) { victory.currentTime = 0; victory.play(); }
   }, []);
 
-  return { playGameLoop, playVictory, stopAll };
+  const pauseAudio = useCallback(() => {
+    const loop = loopRef.current;
+    if (loop) loop.pause();          // keep currentTime — resume will continue from here
+  }, []);
+
+  const resumeAudio = useCallback(() => {
+    const loop = loopRef.current;
+    if (loop) loop.play();
+  }, []);
+
+  return { playGameLoop, playVictory, stopAll, pauseAudio, resumeAudio };
 }

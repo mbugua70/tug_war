@@ -6,10 +6,11 @@ import { CountdownOverlay }  from './CountdownOverlay';
 import '../styles/game.css';
 
 export function Game() {
-  const { gameState, tensionRef, pulseDRef, startGame, beginPlaying, onCorrect, resetGame } = useGameLogic();
+  const { gameState, tensionRef, pulseDRef, startGame, beginPlaying, onCorrect, pauseGame, resumeGame, resetGame } = useGameLogic();
   const { gameStatus, leftScore, rightScore } = gameState;
 
   const isPlaying   = gameStatus === 'playing';
+  const isPaused    = gameStatus === 'paused';
   const isCountdown = gameStatus === 'countdown';
   const isOver      = gameStatus === 'leftWin' || gameStatus === 'rightWin';
 
@@ -51,6 +52,14 @@ export function Game() {
         <div className="arena-wrapper">
           <TugArena tensionRef={tensionRef} pulseDRef={pulseDRef} />
 
+          {/* Pause overlay */}
+          {isPaused && (
+            <div className="pause-overlay">
+              <div className="pause-icon">⏸</div>
+              <p className="pause-label">PAUSED</p>
+            </div>
+          )}
+
           {/* Start overlay */}
           {gameStatus === 'idle' && (
             <div className="arena-overlay">
@@ -76,6 +85,42 @@ export function Game() {
           score={rightScore}
         />
       </div>
+
+      {/* ── Game controls (home + pause) — visible while playing or paused ── */}
+      {(isPlaying || isPaused) && (
+        <div className="game-controls">
+          <button
+            className="gc-btn gc-home"
+            onClick={resetGame}
+            title="Home"
+            aria-label="Go to home"
+          >
+            {/* Home icon */}
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+            </svg>
+          </button>
+
+          <button
+            className={`gc-btn gc-pause${isPaused ? ' gc-is-paused' : ''}`}
+            onClick={isPaused ? resumeGame : pauseGame}
+            title={isPaused ? 'Resume' : 'Pause'}
+            aria-label={isPaused ? 'Resume game' : 'Pause game'}
+          >
+            {isPaused ? (
+              /* Play / Resume icon */
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M8 5v14l11-7z"/>
+              </svg>
+            ) : (
+              /* Pause icon */
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+              </svg>
+            )}
+          </button>
+        </div>
+      )}
 
       {/* ── Countdown overlay ── */}
       {isCountdown && <CountdownOverlay onComplete={beginPlaying} />}

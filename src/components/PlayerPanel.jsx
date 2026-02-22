@@ -28,6 +28,7 @@ const PAD_ROWS = [
 export function PlayerPanel({ side, onCorrect, gameStatus, score }) {
   const isLeft    = side === 'left';
   const isPlaying = gameStatus === 'playing';
+  const isPaused  = gameStatus === 'paused';
 
   const [question,   setQuestion]   = useState(generateQuestion);
   const [input,      setInput]      = useState('');
@@ -89,7 +90,7 @@ export function PlayerPanel({ side, onCorrect, gameStatus, score }) {
     <div className={[
       'player-panel',
       isLeft ? 'panel-left' : 'panel-right',
-      !isPlaying ? 'panel-disabled' : '',
+      isPaused ? 'panel-paused' : (!isPlaying ? 'panel-disabled' : ''),
     ].join(' ')}>
 
       {/* ── Header ── */}
@@ -99,7 +100,7 @@ export function PlayerPanel({ side, onCorrect, gameStatus, score }) {
         <span className="player-score">{score} ✓</span>
       </div>
 
-      {!isPlaying ? (
+      {!isPlaying && !isPaused ? (
         <p className="panel-hint">Waiting to start…</p>
       ) : (
         <>

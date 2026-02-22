@@ -371,6 +371,7 @@
 .np-btn {
   flex:          1;
   aspect-ratio:  1;
+  max-height:    56px;
   background:    var(--dark3);
   border:        1px solid rgba(255,255,255,0.1);
   border-radius: 8px;
@@ -571,6 +572,7 @@
   .np-btn {
     font-size:     1.45rem;
     border-radius: 10px;
+    max-height:    64px;
   }
 
   .numpad-grid { gap: 8px; }
@@ -580,6 +582,101 @@
     font-size: 1.1rem;
     padding:   17px;
   }
+}
+
+/* ── Game controls bar ──────────────────────────────────────────────────────── */
+.game-controls {
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  gap:             20px;
+}
+
+.gc-btn {
+  width:           54px;
+  height:          54px;
+  border-radius:   50%;
+  border:          2px solid rgba(255, 255, 255, 0.22);
+  background:      rgba(255, 255, 255, 0.07);
+  color:           rgba(255, 255, 255, 0.88);
+  cursor:          pointer;
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  transition:      transform 0.16s ease, background 0.16s ease,
+                   border-color 0.16s ease, box-shadow 0.16s ease;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.gc-btn svg {
+  width:  24px;
+  height: 24px;
+  display: block;
+  filter: drop-shadow(0 0 4px currentColor);
+}
+
+.gc-btn:hover  { transform: scale(1.14); }
+.gc-btn:active { transform: scale(0.92); }
+
+/* Home — glows blue on hover */
+.gc-home:hover {
+  background:    rgba(51, 136, 255, 0.18);
+  border-color:  rgba(51, 136, 255, 0.7);
+  box-shadow:    0 0 18px rgba(51, 136, 255, 0.45), 0 0 40px rgba(51, 136, 255, 0.2);
+  color:         var(--blue);
+}
+
+/* Pause/Resume — glows gold on hover */
+.gc-pause:hover {
+  background:    rgba(255, 215, 0, 0.15);
+  border-color:  rgba(255, 215, 0, 0.7);
+  box-shadow:    0 0 18px rgba(255, 215, 0, 0.45), 0 0 40px rgba(255, 215, 0, 0.2);
+  color:         var(--gold);
+}
+
+/* Pause/Resume — solid gold ring when game is paused (always lit) */
+.gc-pause.gc-is-paused {
+  border-color:  rgba(255, 215, 0, 0.6);
+  box-shadow:    0 0 14px rgba(255, 215, 0, 0.4);
+  color:         var(--gold);
+}
+
+/* ── Pause overlay (inside arena-wrapper, position:absolute) ────────────────── */
+.pause-overlay {
+  position:        absolute;
+  inset:           0;
+  z-index:         10;
+  display:         flex;
+  flex-direction:  column;
+  align-items:     center;
+  justify-content: center;
+  gap:             10px;
+  background:      rgba(0, 0, 0, 0.62);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  animation:       fade-in 0.2s ease both;
+}
+
+.pause-icon {
+  font-size:   3.5rem;
+  line-height: 1;
+  filter:      drop-shadow(0 0 16px rgba(255,215,0,0.6));
+}
+
+.pause-label {
+  margin:         0;
+  font-size:      1rem;
+  font-weight:    800;
+  letter-spacing: 0.3em;
+  color:          rgba(255, 255, 255, 0.55);
+  text-transform: uppercase;
+}
+
+/* ── Panel paused state ─────────────────────────────────────────────────────── */
+.player-panel.panel-paused {
+  opacity:        0.55;
+  pointer-events: none;
 }
 
 /* ── Countdown Overlay ──────────────────────────────────────────────────────── */

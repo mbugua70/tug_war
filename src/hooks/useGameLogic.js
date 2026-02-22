@@ -17,7 +17,7 @@ const INITIAL_STATE = {
 
 export function useGameLogic() {
   const [gameState, setGameState] = useState(INITIAL_STATE);
-  const { playGameLoop, playVictory, stopAll } = useGameAudio();
+  const { playGameLoop, playVictory, stopAll, pauseAudio, resumeAudio } = useGameAudio();
 
   const tensionRef       = useRef(0);
   const targetTensionRef = useRef(0);
@@ -85,6 +85,21 @@ export function useGameLogic() {
     }
   }, []);
 
+  // ── Pause / resume ────────────────────────────────────────────────────────
+  const pauseGame = useCallback(() => {
+    cancelAnimationFrame(rafRef.current);
+    statusRef.current = 'paused';
+    pauseAudio();
+    setGameState(prev => ({ ...prev, gameStatus: 'paused' }));
+  }, [pauseAudio]);
+
+  const resumeGame = useCallback(() => {
+    statusRef.current = 'playing';
+    resumeAudio();
+    setGameState(prev => ({ ...prev, gameStatus: 'playing' }));
+    rafRef.current = requestAnimationFrame(loopRef.current);
+  }, [resumeAudio]);
+
   // ── Reset to menu ─────────────────────────────────────────────────────────
   const resetGame = useCallback(() => {
     cancelAnimationFrame(rafRef.current);
@@ -99,5 +114,5 @@ export function useGameLogic() {
 
   useEffect(() => () => cancelAnimationFrame(rafRef.current), []);
 
-  return { gameState, tensionRef, pulseDRef, startGame, beginPlaying, onCorrect, resetGame };
+  return { gameState, tensionRef, pulseDRef, startGame, beginPlaying, onCorrect, pauseGame, resumeGame, resetGame };
 }
