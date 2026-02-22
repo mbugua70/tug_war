@@ -1,4 +1,5 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
+import { useGameAudio } from './useGameAudio';
 
 // ── Physics constants ─────────────────────────────────────────────────────────
 const SHIFT_PER_CORRECT = 0.12;  // rope shift per correct answer
@@ -16,6 +17,7 @@ const INITIAL_STATE = {
 
 export function useGameLogic() {
   const [gameState, setGameState] = useState(INITIAL_STATE);
+  const { playGameLoop, playVictory, stopAll } = useGameAudio();
 
   const tensionRef       = useRef(0);
   const targetTensionRef = useRef(0);
@@ -38,6 +40,8 @@ export function useGameLogic() {
       if (t <= -WIN_THRESHOLD || t >= WIN_THRESHOLD) {
         const winner = t <= -WIN_THRESHOLD ? 'leftWin' : 'rightWin';
         statusRef.current = winner;
+        stopAll();
+        playVictory();
         setGameState(prev => ({ ...prev, gameStatus: winner, ropeTension: t }));
         return;
       }
@@ -55,9 +59,11 @@ export function useGameLogic() {
     pulseDRef.current        = 0;
     pulseVRef.current        = 0;
     statusRef.current        = 'playing';
+    stopAll();
+    playGameLoop();
     setGameState({ ...INITIAL_STATE, gameStatus: 'playing' });
     rafRef.current = requestAnimationFrame(loopRef.current);
-  }, []);
+  }, [stopAll, playGameLoop]);
 
   // ── Correct answer from a player ──────────────────────────────────────────
   const onCorrect = useCallback((side) => {
@@ -81,8 +87,9 @@ export function useGameLogic() {
     pulseDRef.current        = 0;
     pulseVRef.current        = 0;
     statusRef.current        = 'idle';
+    stopAll();
     setGameState(INITIAL_STATE);
-  }, []);
+  }, [stopAll]);
 
   useEffect(() => () => cancelAnimationFrame(rafRef.current), []);
 
