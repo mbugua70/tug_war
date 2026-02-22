@@ -26,7 +26,7 @@
 /* ── Header ────────────────────────────────────────────────────────────────── */
 .game-header {
   width:     100%;
-  max-width: 1140px;
+  max-width: 1760px;
 }
 
 .header-inner {
@@ -91,9 +91,9 @@
   display:        flex;
   flex-direction: row;
   align-items:    stretch;
-  gap:            10px;
+  gap:            clamp(10px, 1.2vw, 24px);
   width:          100%;
-  max-width:      1140px;
+  max-width:      1760px;
 }
 
 /* ── Arena ─────────────────────────────────────────────────────────────────── */
@@ -184,7 +184,7 @@
 
 /* ── Player Panel ──────────────────────────────────────────────────────────── */
 .player-panel {
-  width:          260px;
+  width:          clamp(260px, 20vw, 440px);
   flex-shrink:    0;
   display:        flex;
   flex-direction: column;
@@ -544,6 +544,42 @@
   0%   { transform: scale(1);    }
   40%  { transform: scale(1.38); }
   100% { transform: scale(1);    }
+}
+
+/* ── Large-screen boost (1400px+) ──────────────────────────────────────────── */
+@media (min-width: 1400px) {
+  .game-root {
+    gap:     20px;
+    padding: 28px 24px 40px;
+  }
+
+  .game-title   { font-size: 2.5rem; }
+  .ls-val       { font-size: 2.2rem; }
+
+  .player-panel {
+    padding: 20px 18px;
+    gap:     14px;
+  }
+
+  .question-expr  { font-size: 3rem; }
+
+  .numpad-display {
+    font-size:  2.6rem;
+    min-height: 70px;
+  }
+
+  .np-btn {
+    font-size:     1.45rem;
+    border-radius: 10px;
+  }
+
+  .numpad-grid { gap: 8px; }
+  .numpad-row  { gap: 8px; }
+
+  .pull-btn {
+    font-size: 1.1rem;
+    padding:   17px;
+  }
 }
 
 /* ── Responsive ────────────────────────────────────────────────────────────── */
