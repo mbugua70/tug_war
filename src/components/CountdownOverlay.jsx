@@ -39,6 +39,11 @@ const CIRCUMFERENCE = 653;
 export function CountdownOverlay({ onComplete }) {
   const [idx, setIdx] = useState(0);
 
+  // Tick sound on every number step (not GO!)
+  useEffect(() => {
+    if (idx < STEPS.length - 1) playTick();
+  }, [idx]);
+
   useEffect(() => {
     const { dur } = STEPS[idx];
     const t = setTimeout(() => {
