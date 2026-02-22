@@ -147,8 +147,6 @@
   font-weight: 800;
 }
 
-.win-title-left  { color: var(--blue) !important; text-shadow: 0 0 18px rgba(51,136,255,0.6); }
-.win-title-right { color: var(--red)  !important; text-shadow: 0 0 18px rgba(255,51,68,0.6);  }
 
 .start-card p {
   color:      rgba(255,255,255,0.65);
@@ -439,6 +437,96 @@
 }
 
 /* ── Keyframes ─────────────────────────────────────────────────────────────── */
+/* ── Win overlay (full-screen) ─────────────────────────────────────────────── */
+.win-overlay {
+  position:        fixed;
+  inset:           0;
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  background:      rgba(0,0,0,0.82);
+  backdrop-filter: blur(6px);
+  z-index:         100;
+  animation:       fade-in 0.25s ease;
+}
+
+.win-card {
+  text-align:      center;
+  padding:         40px 48px;
+  background:      var(--dark2);
+  border:          1px solid rgba(255,255,255,0.12);
+  border-radius:   24px;
+  max-width:       400px;
+  width:           90%;
+  box-shadow:      var(--shadow);
+  animation:       win-card-enter 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  display:         flex;
+  flex-direction:  column;
+  align-items:     center;
+  gap:             14px;
+}
+
+.win-card-left  { box-shadow: var(--shadow), 0 0 48px rgba(51,136,255,0.35),  0 0 0 1px rgba(51,136,255,0.25);  }
+.win-card-right { box-shadow: var(--shadow), 0 0 48px rgba(255,51,68,0.35),   0 0 0 1px rgba(255,51,68,0.25);   }
+
+.win-trophy {
+  font-size:  3.5rem;
+  line-height: 1;
+  animation:  trophy-bounce 0.55s 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.win-card h2 {
+  margin:      0;
+  font-size:   2rem;
+  font-weight: 900;
+}
+.win-hl-left  { color: var(--blue); text-shadow: 0 0 24px rgba(51,136,255,0.7);  }
+.win-hl-right { color: var(--red);  text-shadow: 0 0 24px rgba(255,51,68,0.7);   }
+
+.win-score-row {
+  display:     flex;
+  align-items: center;
+  gap:         16px;
+}
+.win-score-val {
+  font-size:   3rem;
+  font-weight: 900;
+  line-height: 1;
+}
+.ws-winner { color: var(--gold); }
+.ws-loser  { color: rgba(255,255,255,0.25); }
+
+.win-score-sep {
+  font-size: 1rem;
+  color:     rgba(255,255,255,0.3);
+}
+
+.win-label {
+  font-size:      0.75rem;
+  color:          rgba(255,255,255,0.38);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin:         -6px 0 0;
+}
+
+.win-btns {
+  display:        flex;
+  flex-direction: column;
+  gap:            10px;
+  width:          100%;
+  margin-top:     4px;
+}
+
+@keyframes win-card-enter {
+  from { opacity: 0; transform: scale(0.72) translateY(20px); }
+  to   { opacity: 1; transform: scale(1)    translateY(0);    }
+}
+
+@keyframes trophy-bounce {
+  from { opacity: 0; transform: scale(0.3) translateY(30px); }
+  to   { opacity: 1; transform: scale(1)   translateY(0);    }
+}
+
 @keyframes fade-in {
   from { opacity: 0; transform: translateY(8px); }
   to   { opacity: 1; transform: translateY(0);   }

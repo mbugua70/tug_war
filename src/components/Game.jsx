@@ -64,20 +64,6 @@ export function Game() {
             </div>
           )}
 
-          {/* Win overlay */}
-          {isOver && (
-            <div className="arena-overlay">
-              <div className="start-card">
-                <div className="start-icon">{gameStatus === 'leftWin' ? '🔵' : '🔴'}</div>
-                <h2 className={gameStatus === 'leftWin' ? 'win-title-left' : 'win-title-right'}>
-                  {gameStatus === 'leftWin' ? 'Player 1 Wins!' : 'Player 2 Wins!'}
-                </h2>
-                <p>{leftScore} vs {rightScore} correct answers</p>
-                <button className="btn-start" onClick={startGame}>▶ Play Again</button>
-                <button className="btn-menu"  onClick={resetGame}>🏠 Menu</button>
-              </div>
-            </div>
-          )}
         </div>
 
         <PlayerPanel
@@ -87,6 +73,32 @@ export function Game() {
           score={rightScore}
         />
       </div>
+
+      {/* ── Full-screen win card ── */}
+      {isOver && (
+        <div className="win-overlay">
+          <div className={`win-card ${gameStatus === 'leftWin' ? 'win-card-left' : 'win-card-right'}`}>
+            <div className="win-trophy">🏆</div>
+            <h2 className={gameStatus === 'leftWin' ? 'win-hl-left' : 'win-hl-right'}>
+              {gameStatus === 'leftWin' ? 'Player 1 Wins!' : 'Player 2 Wins!'}
+            </h2>
+            <div className="win-score-row">
+              <span className={`win-score-val ${gameStatus === 'leftWin' ? 'ws-winner' : 'ws-loser'}`}>
+                {leftScore}
+              </span>
+              <span className="win-score-sep">vs</span>
+              <span className={`win-score-val ${gameStatus === 'rightWin' ? 'ws-winner' : 'ws-loser'}`}>
+                {rightScore}
+              </span>
+            </div>
+            <p className="win-label">correct answers</p>
+            <div className="win-btns">
+              <button className="btn-start" onClick={startGame}>▶ Play Again</button>
+              <button className="btn-menu"  onClick={resetGame}>🏠 Menu</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

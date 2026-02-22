@@ -63,11 +63,11 @@ export function useGameLogic() {
   const onCorrect = useCallback((side) => {
     if (statusRef.current !== 'playing') return;
     if (side === 'left') {
-      targetTensionRef.current = Math.max(-WIN_THRESHOLD, targetTensionRef.current - SHIFT_PER_CORRECT);
+      targetTensionRef.current = Math.max(-WIN_THRESHOLD * 1.5, targetTensionRef.current - SHIFT_PER_CORRECT);
       pulseVRef.current -= 0.55;
       setGameState(prev => ({ ...prev, leftScore: prev.leftScore + 1 }));
     } else {
-      targetTensionRef.current = Math.min(WIN_THRESHOLD, targetTensionRef.current + SHIFT_PER_CORRECT);
+      targetTensionRef.current = Math.min(WIN_THRESHOLD * 1.5, targetTensionRef.current + SHIFT_PER_CORRECT);
       pulseVRef.current += 0.55;
       setGameState(prev => ({ ...prev, rightScore: prev.rightScore + 1 }));
     }
