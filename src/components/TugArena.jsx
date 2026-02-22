@@ -173,7 +173,7 @@ export function TugArena({ tensionRef, pulseDRef }) {
 
       // ── Layout constants ─────────────────────────────────────────────────
       const GROUND_Y = Math.round(H * 0.77);
-      const HAND_Y   = GROUND_Y - Math.round(H * 0.265);
+      const HAND_Y   = GROUND_Y - Math.round(H * 0.16);
       const WZ       = Math.round(W * 0.08);  // win-zone width from each edge
 
       // Fixed rope system — slides as a unit; rope length never changes.
