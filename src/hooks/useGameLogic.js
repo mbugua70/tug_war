@@ -12,7 +12,7 @@ const INITIAL_STATE = {
   leftScore:   0,   // correct answer count
   rightScore:  0,
   ropeTension: 0,
-  gameStatus:  'idle', // 'idle' | 'playing' | 'leftWin' | 'rightWin'
+  gameStatus:  'idle', // 'idle' | 'countdown' | 'playing' | 'leftWin' | 'rightWin'
 };
 
 export function useGameLogic() {
@@ -51,19 +51,25 @@ export function useGameLogic() {
     };
   }, []);
 
-  // ── Start / restart ───────────────────────────────────────────────────────
+  // ── Start / restart — enters countdown phase ───────────────────────────────
   const startGame = useCallback(() => {
     cancelAnimationFrame(rafRef.current);
     tensionRef.current       = 0;
     targetTensionRef.current = 0;
     pulseDRef.current        = 0;
     pulseVRef.current        = 0;
-    statusRef.current        = 'playing';
+    statusRef.current        = 'countdown';
     stopAll();
+    setGameState({ ...INITIAL_STATE, gameStatus: 'countdown' });
+  }, [stopAll]);
+
+  // ── Called by CountdownOverlay when "GO!" finishes ─────────────────────────
+  const beginPlaying = useCallback(() => {
+    statusRef.current = 'playing';
     playGameLoop();
-    setGameState({ ...INITIAL_STATE, gameStatus: 'playing' });
+    setGameState(prev => ({ ...prev, gameStatus: 'playing' }));
     rafRef.current = requestAnimationFrame(loopRef.current);
-  }, [stopAll, playGameLoop]);
+  }, [playGameLoop]);
 
   // ── Correct answer from a player ──────────────────────────────────────────
   const onCorrect = useCallback((side) => {
@@ -93,5 +99,5 @@ export function useGameLogic() {
 
   useEffect(() => () => cancelAnimationFrame(rafRef.current), []);
 
-  return { gameState, tensionRef, pulseDRef, startGame, onCorrect, resetGame };
+  return { gameState, tensionRef, pulseDRef, startGame, beginPlaying, onCorrect, resetGame };
 }

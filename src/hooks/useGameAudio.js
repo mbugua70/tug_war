@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useCallback } from 'react';
 
 export function useGameAudio() {
   const loopRef    = useRef(null);
@@ -21,22 +21,22 @@ export function useGameAudio() {
     };
   }, []);
 
-  const stopAll = () => {
+  const stopAll = useCallback(() => {
     const loop    = loopRef.current;
     const victory = victoryRef.current;
     if (loop)    { loop.pause();    loop.currentTime    = 0; }
     if (victory) { victory.pause(); victory.currentTime = 0; }
-  };
+  }, []);
 
-  const playGameLoop = () => {
+  const playGameLoop = useCallback(() => {
     const loop = loopRef.current;
     if (loop) { loop.currentTime = 0; loop.play(); }
-  };
+  }, []);
 
-  const playVictory = () => {
+  const playVictory = useCallback(() => {
     const victory = victoryRef.current;
     if (victory) { victory.currentTime = 0; victory.play(); }
-  };
+  }, []);
 
   return { playGameLoop, playVictory, stopAll };
 }

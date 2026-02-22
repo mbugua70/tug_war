@@ -582,6 +582,128 @@
   }
 }
 
+/* ── Countdown Overlay ──────────────────────────────────────────────────────── */
+.cd-overlay {
+  position:         fixed;
+  inset:            0;
+  z-index:          150;
+  display:          flex;
+  align-items:      center;
+  justify-content:  center;
+  background:       rgba(0, 0, 0, 0.86);
+  backdrop-filter:  blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  animation:        cd-fade-in 0.2s ease both;
+}
+
+@keyframes cd-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Ambient colour bloom */
+.cd-ambient {
+  position:      absolute;
+  inset:         0;
+  pointer-events: none;
+  animation:     cd-ambient-pulse 0.9s ease-out forwards;
+}
+
+@keyframes cd-ambient-pulse {
+  0%   { opacity: 0; transform: scale(0.6); }
+  30%  { opacity: 1; transform: scale(1);   }
+  100% { opacity: 0; transform: scale(1.4); }
+}
+
+/* Expanding shock ring */
+.cd-shock {
+  position:      absolute;
+  width:         260px;
+  height:        260px;
+  border-radius: 50%;
+  border:        2.5px solid;
+  pointer-events: none;
+  animation:     cd-shock-expand 0.75s cubic-bezier(0.2, 0.8, 0.4, 1) forwards;
+}
+
+@keyframes cd-shock-expand {
+  0%   { transform: scale(0.75); opacity: 0.9; }
+  100% { transform: scale(2.2);  opacity: 0;   }
+}
+
+/* Centre container */
+.cd-center {
+  position:        relative;
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  width:           260px;
+  height:          260px;
+}
+
+/* Draining SVG ring */
+.cd-ring {
+  position:  absolute;
+  inset:     0;
+  transform: rotate(-90deg);
+  overflow:  visible;
+}
+
+.cd-ring-track {
+  fill:         none;
+  stroke:       rgba(255, 255, 255, 0.08);
+  stroke-width: 5;
+}
+
+.cd-ring-fill {
+  fill:              none;
+  stroke-width:      5;
+  stroke-linecap:    round;
+  stroke-dashoffset: 0;
+  animation:         cd-ring-drain 0.94s linear forwards;
+}
+
+@keyframes cd-ring-drain {
+  from { stroke-dashoffset: 0;   }
+  to   { stroke-dashoffset: 653; }
+}
+
+/* Number (3 / 2 / 1) */
+.cd-num {
+  position:    absolute;
+  font-size:   clamp(110px, 22vw, 160px);
+  font-weight: 900;
+  line-height: 1;
+  user-select: none;
+  animation:   cd-num-pop 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  will-change: transform, opacity, filter;
+}
+
+@keyframes cd-num-pop {
+  0%   { transform: scale(0.2);  opacity: 0;   filter: blur(14px); }
+  22%  { transform: scale(1.22); opacity: 1;   filter: blur(0);    }
+  42%  { transform: scale(0.93); opacity: 1; }
+  58%  { transform: scale(1.03); opacity: 1; }
+  76%  { transform: scale(1.0);  opacity: 1; }
+  90%  { transform: scale(1.0);  opacity: 0.95; }
+  100% { transform: scale(1.1);  opacity: 0;   filter: blur(6px);  }
+}
+
+/* GO! label — more explosive */
+.cd-go {
+  font-size:  clamp(80px, 17vw, 128px);
+  animation:  cd-go-pop 0.85s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes cd-go-pop {
+  0%   { transform: scale(0.1);  opacity: 0;   filter: blur(20px); }
+  28%  { transform: scale(1.38); opacity: 1;   filter: blur(0);    }
+  50%  { transform: scale(0.92); opacity: 1; }
+  68%  { transform: scale(1.05); opacity: 1; }
+  84%  { transform: scale(1.0);  opacity: 1; }
+  100% { transform: scale(1.55); opacity: 0;   filter: blur(10px); }
+}
+
 /* ── Responsive ────────────────────────────────────────────────────────────── */
 @media (max-width: 700px) {
   .game-body {

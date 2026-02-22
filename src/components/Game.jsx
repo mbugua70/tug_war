@@ -1,15 +1,17 @@
 import { useGameLogic }  from '../hooks/useGameLogic';
 import { TugArena }      from './TugArena';
 import { PlayerPanel }   from './PlayerPanel';
-import { WinConfetti }   from './WinConfetti';
+import { WinConfetti }       from './WinConfetti';
+import { CountdownOverlay }  from './CountdownOverlay';
 import '../styles/game.css';
 
 export function Game() {
-  const { gameState, tensionRef, pulseDRef, startGame, onCorrect, resetGame } = useGameLogic();
+  const { gameState, tensionRef, pulseDRef, startGame, beginPlaying, onCorrect, resetGame } = useGameLogic();
   const { gameStatus, leftScore, rightScore } = gameState;
 
-  const isPlaying = gameStatus === 'playing';
-  const isOver    = gameStatus === 'leftWin' || gameStatus === 'rightWin';
+  const isPlaying   = gameStatus === 'playing';
+  const isCountdown = gameStatus === 'countdown';
+  const isOver      = gameStatus === 'leftWin' || gameStatus === 'rightWin';
 
   return (
     <div className="game-root">
@@ -74,6 +76,9 @@ export function Game() {
           score={rightScore}
         />
       </div>
+
+      {/* ── Countdown overlay ── */}
+      {isCountdown && <CountdownOverlay onComplete={beginPlaying} />}
 
       {/* ── Full-screen win card ── */}
       {isOver && (
